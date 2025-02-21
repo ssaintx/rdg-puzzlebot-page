@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 function App() {
   useEffect(() => {
-    // Function to extract URL parameters
+    const TOKEN = process.env.TOKEN
     const getUrlParams = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const chatId = searchParams.get('chatId');
@@ -21,7 +21,7 @@ function App() {
 
       try {
         // Make the API request
-        await fetch('https://api.puzzlebot.top/?token=EBy9ZxQGYE90P92kXiE87HeUx90Dt3Yt&method=sendCommand', {
+        await fetch(`https://api.puzzlebot.top/?token=${TOKEN}&method=sendCommand`, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
