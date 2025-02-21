@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   useEffect(() => {
-    const TOKEN = process.env.TOKEN
     const getUrlParams = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const chatId = searchParams.get('chatId');
@@ -13,15 +13,15 @@ function App() {
     // Function to make API request and then redirect
     const processRedirect = async () => {
       const { chatId, instId } = getUrlParams();
-      
+
       if (!chatId || !instId) {
-        console.error('Missing required parameters');
-        return;
+        console.error('Missing required parameters:', { chatId, instId });
+        setErrorMessage('Missing required parameters');
       }
 
       try {
         // Make the API request
-        await fetch(`https://api.puzzlebot.top/?token=${TOKEN}&method=sendCommand`, {
+        await fetch(`https://api.puzzlebot.top/?token=EBy9ZxQGYE90P92kXiE87HeUx90Dt3Yt&method=sendCommand`, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -32,21 +32,31 @@ function App() {
             tg_chat_id: chatId
           })
         });
-        
+
         // Redirect to Instagram immediately after the request is complete
-        window.location.href = `https://instagram.com/p/${instId}`;
+        if(!instId) {
+          setErrorMessage('Something went wrong');
+        } else {
+          window.location.href = `https://www.instagram.com/p/${instId}`;
+        }
       } catch (error) {
         console.error('Error processing redirect:', error);
         // Still redirect to Instagram even if the API request fails
-        window.location.href = `https://instagram.com/p/${instId}`;
+        setErrorMessage('Something went wrong');
       }
     };
 
     // Execute the process immediately when component mounts
-    processRedirect();
-  }, []); 
+    if (!errorMessage) {
+      processRedirect();
+    }
+  }, []);
 
-  return <div>Redirecting...</div>;
+  return (
+    <div>
+      {errorMessage ? <div>{errorMessage}</div> : <div>Redirecting...</div>}
+    </div>
+  );
 }
 
 export default App;
