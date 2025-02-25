@@ -14,9 +14,11 @@ function App() {
     const processRedirect = async () => {
       const { chatId, instId } = getUrlParams();
 
-      if (!chatId || !instId) {
+      const instLink = new URLSearchParams(window.location.search).get('instId');
+
+      if (!chatId || !instLink) {
         console.error('Missing required parameters:', { chatId, instId });
-        setErrorMessage('Missing required parameters');
+        setErrorMessage('Missing required parameters or link');
       }
 
       try {
@@ -34,11 +36,11 @@ function App() {
         });
 
         // Redirect to Instagram immediately after the request is complete
-        if(!instId) {
-          setErrorMessage('Something went wrong');
-        } else {
-          window.location.href = `https://www.instagram.com/p/${instId}`;
+        if (instLink) {
+          window.location.href = instLink;
         }
+
+
       } catch (error) {
         console.error('Error processing redirect:', error);
         // Still redirect to Instagram even if the API request fails
