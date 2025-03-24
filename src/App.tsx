@@ -5,8 +5,8 @@ function App() {
   useEffect(() => {
     const getUrlParams = () => {
       const searchParams = new URLSearchParams(window.location.search);
-      const chatId = searchParams.get('chatId');
-      const instId = searchParams.get('instId');
+      const chatId = searchParams.get('u');
+      const instId = searchParams.get('i');
       return { chatId, instId };
     };
 
@@ -14,10 +14,11 @@ function App() {
     const processRedirect = async () => {
       const { chatId, instId } = getUrlParams();
 
-      const instLink = new URLSearchParams(window.location.search).get('instId');
+      
+      const instLinkPart = instId
 
-      if (!chatId || !instLink) {
-        console.error('Missing required parameters:', { chatId, instId });
+      if (!chatId || !instLinkPart) {
+        console.error('Missing required parameters:', { chatId, instLinkPart });
         setErrorMessage('Missing required parameters or link');
       }
 
@@ -35,8 +36,8 @@ function App() {
           })
         });
 
-        // Redirect to Instagram immediately after the request is complete
-        if (instLink) {
+        const instLink = `https://instagram.com/${instLinkPart}`
+        if (instLinkPart) {
           window.location.href = instLink;
         }
 
