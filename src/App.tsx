@@ -14,12 +14,11 @@ function App() {
     const processRedirect = async () => {
       const { chatId, instId } = getUrlParams();
 
-      
-      const instLinkPart = instId
+      const instLink = instId;
 
-      if (!chatId || !instLinkPart) {
-        console.error('Missing required parameters:', { chatId, instLinkPart });
-        setErrorMessage('Missing required parameters or link');
+      if (!chatId || !instLink) {
+        console.error('Missing required parameters:', { chatId, instLink });
+        setErrorMessage('Missing required parameters or link not provided');
       }
 
       try {
@@ -36,8 +35,8 @@ function App() {
           })
         });
 
-        const instLink = `https://instagram.com/${instLinkPart}`
-        if (instLinkPart) {
+        
+        if (instLink) {
           window.location.href = instLink;
         }
 
