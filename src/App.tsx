@@ -12,13 +12,13 @@ function App() {
 
     // Function to make API request and then redirect
     const processRedirect = async () => {
-      const { chatId } = getUrlParams();
+      const { chatId, instId } = getUrlParams();
 
       const instLink = new URLSearchParams(window.location.search).get('i');
 
       if (!chatId || !instLink) {
-        console.error('Missing required parameters:', { chatId, instLink });
-        setErrorMessage('Missing required parameters or link not provided');
+        console.error('Missing required parameters:', { chatId, instId });
+        setErrorMessage('Missing required parameters or link');
       }
 
       try {
@@ -35,7 +35,7 @@ function App() {
           })
         });
 
-        
+        // Redirect to Instagram immediately after the request is complete
         if (instLink) {
           window.location.href = instLink;
         }
