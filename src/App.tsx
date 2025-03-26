@@ -12,9 +12,9 @@ function App() {
 
     // Function to make API request and then redirect
     const processRedirect = async () => {
-      const { chatId, instId } = getUrlParams();
+      const { chatId } = getUrlParams();
 
-      const instLink = instId;
+      const instLink = new URLSearchParams(window.location.search).get('i');
 
       if (!chatId || !instLink) {
         console.error('Missing required parameters:', { chatId, instLink });
